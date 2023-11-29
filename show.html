@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Video</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .video-container video {
+            width: calc(50% - 20px);
+            margin: 10px;
+            max-width: 100%;
+        }
+
+        #playDiv {
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            width: 150px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="video-container">
+            <video id="video1" controls></video>
+            <video id="video2" controls></video>
+        </div>
+        <div id="playDiv">Play/Pause Videos</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        if (Hls.isSupported()) {
+            var hls1 = new Hls();
+            hls1.loadSource('output/output.m3u8');
+            hls1.attachMedia(document.getElementById('video2'));
+        }
+
+        var video2 = document.getElementById('video1');
+        var source2 = document.createElement('source');
+        source2.setAttribute('src', 'handAndStand.mp4');
+        source2.setAttribute('type', 'video/mp4');
+        video2.appendChild(source2);
+
+        document.getElementById('playDiv').addEventListener('click', function () {
+            var video1 = document.getElementById('video1');
+            var video2 = document.getElementById('video2');
+            if (video1.paused && video2.paused) {
+                video1.play();
+                video2.play();
+            } else {
+                video1.pause();
+                video2.pause();
+            }
+        });
+    </script>
+</body>
+
+</html>
