@@ -9,8 +9,8 @@ from .sort.detection import Detection
 from .sort.tracker import Tracker
 from .deep.reid_model_factory import show_downloadeable_models, get_model_url, get_model_name
 
-from torchreid.utils import FeatureExtractor
-from torchreid.utils.tools import download_url
+from strong_sort.deep.reid.torchreid.utils import FeatureExtractor
+from strong_sort.deep.reid.torchreid.utils.tools import download_url
 
 __all__ = ['StrongSORT']
 

@@ -1,7 +1,9 @@
 import argparse
 
 import os
+
 # limit the number of cpus used by high performance libraries
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 os.environ["OMP_NUM_THREADS"] = "1"
 os.environ["OPENBLAS_NUM_THREADS"] = "1"
 os.environ["MKL_NUM_THREADS"] = "1"
@@ -107,7 +109,7 @@ def run(
     model = DetectMultiBackend(yolo_weights, device=device, dnn=dnn, data=None, fp16=half)
     stride, names, pt = model.stride, model.names, model.pt
     imgsz = check_img_size(imgsz, s=stride)  # check image size
-    trajectory = {}
+    # trajectory = {}
 
 
     # Dataloader
@@ -216,6 +218,7 @@ def run(
             imc = im0.copy() if save_crop else im0  # for save_crop
 
             annotator = Annotator(im0, line_width=2, pil=not ascii)
+
             if cfg.STRONGSORT.ECC:  # camera motion compensation
                 strongsort_list[i].tracker.camera_update(prev_frames[i], curr_frames[i])
 
@@ -258,6 +261,8 @@ def run(
                             with open(txt_path+'.txt', 'a') as f:
                                 # f.write(('%g ' * 11 + '\n') % (frame_idx + 1, cls, id, bbox_left,  # MOT format
                                 #                                bbox_top, bbox_w, bbox_h, -1, -1, -1, -1))
+                                # f.write('%g %g %g %g %g %g -1 -1 -1 -1\n' % (
+                                # frame_idx + 1, id, bbox_left, bbox_top, bbox_w, bbox_h))
                                 f.write('%g %g\n' % (frame_idx + 1, id))
 
                         if save_vid:  # Add bbox to image
